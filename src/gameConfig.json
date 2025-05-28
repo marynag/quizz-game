@@ -44,7 +44,7 @@
       "id": 6,
       "question": "How many continents are there on Earth?",
       "options": ["3", "8", "6", "7"],
-      "answer": ["3"],
+      "answer": ["7"],
       "prize": "4000"
     },
     {
@@ -65,7 +65,7 @@
       "id": 9,
       "question": "How many hours are in a day?",
       "options": ["12", "16", "20", "24"],
-      "answer": ["60"],
+      "answer": ["24"],
       "prize": "32000"
     },
     {
