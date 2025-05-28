@@ -1,0 +1,34 @@
+.buttonPrimary {
+  width: 296px;
+  padding: 21px 24px 20px 24px;
+  background: var(--orange-primary);
+  border-radius: 12px;
+  border: none;
+}
+
+.buttonPrimary:hover {
+  background: var(--orange-hover);
+}
+
+.buttonPrimary:active {
+  background: var(--orange-press);
+}
+
+.buttonText {
+  font-weight: 600;
+  line-height: 115.99999999999999%;
+  font-size: 20px;
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .buttonPrimary {
+    width: 100%;
+    max-width: 288px;
+    padding: 16px 24px;
+  }
+
+  .buttonText {
+    font-size: 14px;
+  }
+}
