@@ -1,6 +1,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --orange-primary: #ff8b37;
+  --orange-hover: #ffac70;
+  --orange-press: #e87928;
+  --grey-inactive: #d0d0d8;
+  --orange-fade: #fff3eb;
+  --green-fade: #e6faea;
+  --red-fade: #fdeeed;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,6 +21,8 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 body {
@@ -33,10 +42,4 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
