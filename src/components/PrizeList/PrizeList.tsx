@@ -1,13 +1,12 @@
 import React from "react";
 import styles from "./PrizeList.module.css";
-import { GameConfig } from "@/types";
 
-import quizData from "../../gameConfig.json";
 import { PrizeStep } from "../PrizeStep/PrizeStep";
+import { useGame } from "@/context/GameContext";
 
 export const PrizeList = () => {
-  const gameConfig: GameConfig = quizData;
-  
+  const { gameState, gameConfig } = useGame();
+
   return (
     <div className={styles.prizeList}>
       <ul className={styles.prizeListPoint}>
@@ -15,7 +14,22 @@ export const PrizeList = () => {
           .slice()
           .reverse()
           .map((question, index) => {
-            return <PrizeStep key={index} isCurrent={false} isCompleted={false} prize={question.prize}></PrizeStep>;
+            const isWon =
+              index <
+              gameConfig.questions.length - gameState.currentQuestionIndex - 1;
+            const isLost = gameState.isAnswerRevealed && !gameState.isCorrect;
+            const isCurrent =
+              index ===
+              gameConfig.questions.length - gameState.currentQuestionIndex - 1;
+
+            return (
+              <PrizeStep
+                key={index}
+                isCurrent={isCurrent}
+                isCompleted={isWon || isLost}
+                prize={question.prize}
+              ></PrizeStep>
+            );
           })}
       </ul>
     </div>
