@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import styles from "./PrizeStep.module.css";
 
 type PrizeStepProps = {
   isCurrent: boolean;
@@ -39,6 +40,7 @@ export const PrizeStep = ({
       viewBox="0 0 376 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={styles.prizeStep}
     >
       <path d="M69 20H0" stroke={colorLine} />
       <path d="M376 20H307" stroke={colorLine} />

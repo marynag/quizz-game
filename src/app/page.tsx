@@ -5,9 +5,20 @@ import { PrizeList } from "@/components/PrizeList/PrizeList";
 import { GameStatus } from "@/types";
 import { GamePlay } from "@/components/GamePlay/GamePlay";
 import styles from "./page.module.css";
+import { BurgerMenu } from "@/components/BurgerMenu/BurgerMenu";
+import { useState } from "react";
+import { GameFinish } from "@/components/GameFinish/GameFinish";
 
 export default function Home() {
   const { gameState } = useGame();
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+  const [isPrizeListVisible, setIsPrizeListVisible] = useState(!isMobile);
+
+  const changePrizeListVisibility = () => {
+    setIsPrizeListVisible(!isPrizeListVisible);
+  };
 
   switch (gameState.gameStatus) {
     case GameStatus.menu:
@@ -15,13 +26,17 @@ export default function Home() {
     case GameStatus.playing:
       return (
         <div className={styles.gameWrapper}>
+          <BurgerMenu
+            onClick={changePrizeListVisibility}
+            isOpened={!isPrizeListVisible}
+          />
           <GamePlay />
-          <PrizeList />
+          {isPrizeListVisible && <PrizeList />}
         </div>
       );
     case GameStatus.finished:
-      return <p>finished</p>;
+      return <GameFinish />;
     default:
-      return <p>finished</p>;
+      return <GameGreeting />;
   }
 }
