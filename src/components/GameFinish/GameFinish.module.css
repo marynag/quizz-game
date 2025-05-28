@@ -1,0 +1,70 @@
+.bgGradient {
+  background: var(--black-fade);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  padding: 0 80px;
+}
+
+.header {
+  font-weight: 600;
+  font-size: 56px;
+  line-height: 115.99999999999999%;
+  letter-spacing: 0%;
+  color: var(--black-text);
+}
+.imageWrapper,
+.headerWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  gap: 64px;
+}
+
+.handImage {
+  width: 100%;
+  height: auto;
+}
+
+.totalResult {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 115.99999999999999%;
+  letter-spacing: 0%;
+  color: #d0d0d8;
+}
+
+.resultScore {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .imageWrapper,
+  .headerWrapper {
+    align-items: center;
+    width: 100%;
+    gap: 102px;
+  }
+  .header {
+    text-align: center;
+    font-size: 32px;
+  }
+  .bgGradient {
+    padding: 0 16px;
+    gap: 24px;
+    flex-direction: column;
+  }
+  .totalResult {
+    font-size: 18px;
+  }
+  .resultScore {
+    align-items: center;
+    justify-content: center;
+  }
+}
