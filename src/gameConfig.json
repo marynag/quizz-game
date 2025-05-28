@@ -1,0 +1,93 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "2 + 2",
+      "options": ["3", "4", "5", "6"],
+      "answer": ["4", "5"],
+      "prize": "100"
+    },
+    {
+      "id": 2,
+      "question": "what is the capital of Ukraine?",
+      "options": ["Kyiv", "Kharkiv", "Vinnytsia", "Lviv"],
+      "answer": ["Kyiv"],
+      "prize": "200"
+    },
+    {
+      "id": 3,
+      "question": "How many days are in February in a leap year?",
+      "options": ["28", "29", "30", "31"],
+      "answer": ["29"],
+      "prize": "500"
+    },
+    {
+      "id": 4,
+      "question": "Who is the author of the poem 'Kobzar'?",
+      "options": [
+        "Ivan Franko",
+        "Lesya Ukrainka",
+        "Taras Shevchenko",
+        "Marko Vovchok"
+      ],
+      "answer": ["Taras Shevchenko"],
+      "prize": "1000"
+    },
+    {
+      "id": 5,
+      "question": "What is the biggest planet in our solar system?",
+      "options": ["Earth", "Mars", "Saturn", "Jupiter"],
+      "answer": ["Jupiter"],
+      "prize": "2000"
+    },
+    {
+      "id": 6,
+      "question": "How many continents are there on Earth?",
+      "options": ["3", "8", "6", "7"],
+      "answer": ["3"],
+      "prize": "4000"
+    },
+    {
+      "id": 7,
+      "question": "What is the largest ocean on Earth?",
+      "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+      "answer": ["Pacific"],
+      "prize": "8000"
+    },
+    {
+      "id": 8,
+      "question": "In which year did the Soviet Union collapse?",
+      "options": ["1990", "1991", "1992", "1993"],
+      "answer": ["1991"],
+      "prize": "16000"
+    },
+    {
+      "id": 9,
+      "question": "How many hours are in a day?",
+      "options": ["12", "16", "20", "24"],
+      "answer": ["60"],
+      "prize": "32000"
+    },
+    {
+      "id": 10,
+      "question": "What is the chemical symbol for gold?",
+      "options": ["Go", "Gd", "Au", "Ag"],
+      "answer": ["Au"],
+      "prize": "64000"
+    },
+    {
+      "id": 11,
+      "question": "How many planets are in our solar system?",
+      "options": ["4", "7", "8", "9"],
+      "answer": ["8"],
+      "prize": "125000"
+    },
+    {
+      "id": 12,
+      "question": "What is the capital of France?",
+      "options": ["Berlin", "Madrid", "Paris", "Rome"],
+      "answer": ["Paris"],
+      "prize": "1000000"
+    }
+  ]
+}
