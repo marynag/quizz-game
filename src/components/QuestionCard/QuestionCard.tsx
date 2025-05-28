@@ -3,7 +3,7 @@ import React from "react";
 import { Question } from "@/types";
 
 import styles from "./QuestionCard.module.css";
-import { OptionTemplate } from "../common/OptionTemplate/OptionTemplate";
+import { OptionTemplate } from "../OptionTemplate/OptionTemplate";
 
 type QuestionCardProps = {
   question: Question;

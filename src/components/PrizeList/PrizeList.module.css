@@ -1,0 +1,9 @@
+.prizeListPoint {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: 8px;
+  background-color: var(--white);
+}

@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   text: string;
@@ -7,9 +6,20 @@ type Props = {
 };
 
 export const OptionTemplate = ({ text, number }: Props) => {
-  const letter = String.fromCharCode(64 + number);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const isMobile = window.innerWidth <= 768;
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
+
+  const letter = String.fromCharCode(64 + number);
 
   return (
     <svg
