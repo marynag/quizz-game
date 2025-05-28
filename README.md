@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Who Wants to Be a Millionaire
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
+A full-featured implementation of the classic "Who Wants to Be a Millionaire" quiz game built using Next.js, TypeScript, and modern web technologies. This application provides an interactive gaming experience with question progression, score tracking, and responsive design.
+
+## Features
+
+- Classic Gameplay: 12-question progression system
+- Multiple Choice: Four answer options with single correct answer
+- Responsive Design: Optimized for all device types and screen sizes
+- JSON Configuration: Easy game customization through configuration files
+- Extensible Architecture: Modular design for feature expansion
+- Results Display: Comprehensive game outcome presentation
+- Full TypeScript Support: Complete type safety and IntelliSense
+- Unit Testing: Comprehensive test coverage with Jest
+- Code Quality: ESLint with Airbnb configuration
+- Git Hooks: Pre-commit quality assurance
+
+## Technology Stack
+
+- **Next.js 14** - React framework
+- **TypeScript** - Static type checking
+- **ESLint** - Code linting and formatting
+- **Jest** - Unit testing framework
+- **Husky** - Git hooks management
+- **lint-staged** - Pre-commit file checking
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Initialize Git hooks:
+
+```bash
+npm run prepare
+```
+
+4. Verify installation
+
+```bash
+npm run lint
+npm test
+```
+
+## Development
+
+### Start development server on port 3000
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Navigate to http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run tests to ensure functionality:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test
+```
 
-## Learn More
+### Check code quality
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+quizz-game/
+├── src/                          # Source code directory
+│   ├── __tests__/               # Test files
+│   ├── app/                     # Next.js app directory
+│   │   ├── layout.tsx           # Root layout component
+│   │   ├── page.tsx             # Home page component
+│   │   └── globals.css          # Global styles
+│   ├── components/              # React components
+│   │   ├── common/              # Reusable UI components
+│   ├── context/                 # React Context providers
+│   ├── types                   # TypeScript type definitions
+│   └── gameConfig.json          # Game configuration
+├── public/                      # Static assets
+│   ├── images/                  # Image files
+│   └── favicon.ico              # Site favicon
+├── .eslintrc.json              # ESLint configuration
+├── .gitignore                  # Git ignore rules
+├── jest.config.js              # Jest testing configuration
+├── next.config.js              # Next.js configuration
+├── package.json                # Project dependencies and scripts
+├── README.md                   # Project documentation
+└── tsconfig.json               # TypeScript configuration
+```
 
-## Deploy on Vercel
+## Game Configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The game uses a JSON configuration file located at `src/gameConfig.json` to define questions, answers, and prize structure.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Формат конфігурації
+
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the capital of France?",
+      "options": ["London", "Berlin", "Paris", "Madrid"],
+      "answer": ["London"],
+      "prize": 100
+    }
+  ]
+}
+```
+
+### Customization Options
+
+- **Multiple Correct Answers**: Add multiple indices to `answer` array
+- **Variable Options**: Modify `options` array length
+
+
+## Extensions
+
+To add new features:
+1. Create new types in `src/types`
+2. Add components to the appropriate folders
+3. Update configuration if necessary
+4. Add tests for the new functionality
