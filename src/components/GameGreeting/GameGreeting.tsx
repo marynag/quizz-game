@@ -5,8 +5,10 @@ import styles from "./GameGreeting.module.css";
 
 import { Button } from "../common/Button";
 import handImage from "../../../public/images/hand.png";
+import { useGame } from "@/context/GameContext";
 
 export const GameGreeting = () => {
+  const { startGame } = useGame();
   return (
     <div className={styles.bgGradient}>
       <div className={styles.imageWrapper}>
@@ -14,7 +16,7 @@ export const GameGreeting = () => {
       </div>
       <div className={styles.headerWrapper}>
         <h1 className={styles.header}>Who wants to be a millionaire?</h1>
-        <Button text={"Start"} onClick={() => {}} />
+        <Button text={"Start"} onClick={startGame} />
       </div>
     </div>
   );
