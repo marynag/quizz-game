@@ -8,13 +8,8 @@
   --orange-fade: #fff3eb;
   --green-fade: #e6faea;
   --red-fade: #fdeeed;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --white: #ffffff;
+  --black-text: #1c1c21;
 }
 
 html,
