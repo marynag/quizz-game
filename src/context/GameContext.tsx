@@ -1,7 +1,5 @@
 "use client";
-
-import React, { createContext, useContext, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import quizData from "../gameConfig.json";
 import { validateGameConfig } from "./GameContext.utils";
@@ -9,13 +7,14 @@ import { GameConfig, GameState, GameStatus } from "@/types";
 
 interface GameContextProps {
   gameState: GameState;
-  gameConfig: GameConfig;
+  gameConfig: GameConfig | null;
   startGame: () => void;
   selectAnswer: (answer: string) => void;
   checkAnswer: (selectedAnswers: string[]) => void;
   nextQuestion: () => void;
   restartGame: () => void;
   error: string | null;
+  isLoading: boolean;
 }
 
 const GameContext = createContext<GameContextProps | undefined>(undefined);
@@ -23,8 +22,8 @@ const GameContext = createContext<GameContextProps | undefined>(undefined);
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [gameState, setGameState] = useState<GameState>({
     currentQuestionIndex: 0,
@@ -35,28 +34,36 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     isCorrect: null,
   });
 
-  let gameConfig: GameConfig;
+  const [gameConfig, setGameConfig] = useState<GameConfig | null>(null);
 
-  try {
-    gameConfig = quizData;
-    validateGameConfig(gameConfig);
-  } catch (err) {
-    console.log(err);
-    const errorMessage =
-      err instanceof Error ? err.message : "Game configuration error";
-    router.push(`/error?message=${encodeURIComponent(errorMessage)}`);
-    gameConfig = {
-      questions: [],
-    };
-  }
+  useEffect(() => {
+    loadGameConfig();
+  }, []);
+
+  const loadGameConfig = () => {
+    try {
+      const config = quizData;
+      validateGameConfig(config);
+      setGameConfig(config);
+      setIsLoading(false);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Game configuration error";
+      setError(errorMessage);
+      setIsLoading(false);
+    }
+  };
 
   const handleError = (errorMessage: string) => {
     setError(errorMessage);
-    router.push(`/error?message=${encodeURIComponent(errorMessage)}`);
   };
 
   const startGame = (): void => {
     try {
+      if (!gameConfig) {
+        throw new Error("Game not ready");
+      }
+
       setGameState({
         currentQuestionIndex: 0,
         totalPrize: 0,
@@ -67,13 +74,17 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       setError(null);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       handleError("Failed to start game");
     }
   };
 
   const selectAnswer = (answer: string): void => {
     try {
+      if (!gameConfig || !gameConfig.questions.length) {
+        throw new Error("Game not properly initialized");
+      }
+
       const currentQuestion =
         gameConfig.questions[gameState.currentQuestionIndex];
 
@@ -114,17 +125,18 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       handleError("Failed to select answer");
     }
   };
 
   const nextQuestion = (): void => {
     try {
-      if (
-        !gameConfig ||
-        gameState.currentQuestionIndex >= gameConfig.questions.length - 1
-      ) {
+      if (!gameConfig || !gameConfig.questions.length) {
+        throw new Error("Game not properly initialized");
+      }
+
+      if (gameState.currentQuestionIndex >= gameConfig.questions.length - 1) {
         return;
       }
 
@@ -136,16 +148,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         isCorrect: null,
       }));
     } catch (err) {
-      console.log(err);
-
+      console.error(err);
       handleError("Failed to load next question");
     }
   };
 
   const checkAnswer = (selectedAnswers: string[]): void => {
     try {
-      if (!gameConfig) {
-        throw new Error("Game config not available");
+      if (!gameConfig || !gameConfig.questions.length) {
+        throw new Error("Game not properly initialized");
       }
 
       const currentQuestion =
@@ -185,7 +196,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         nextQuestion();
       }, 1000);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       handleError("Failed to check answer");
     }
   };
@@ -202,7 +213,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       setError(null);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       handleError("Failed to restart game");
     }
   };
@@ -218,6 +229,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         nextQuestion,
         restartGame,
         error,
+        isLoading,
       }}
     >
       {children}

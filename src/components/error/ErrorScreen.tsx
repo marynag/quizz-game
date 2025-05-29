@@ -1,4 +1,5 @@
 "use client";
+
 import styles from "./ErrorScreen.module.css";
 
 interface ErrorScreenProps {
