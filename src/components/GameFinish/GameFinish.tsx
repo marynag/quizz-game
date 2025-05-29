@@ -1,9 +1,8 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import styles from "./GameFinish.module.css";
 
-import { Button } from "../common/Button";
+import { Button } from "../common/Button/Button";
 import handImage from "../../../public/images/hand.png";
 import { useGame } from "@/context/GameContext";
 
