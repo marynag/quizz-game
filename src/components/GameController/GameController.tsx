@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { GameFinish } from "@/components/GameFinish/GameFinish";
 import { ErrorScreen } from "@/components/error/ErrorScreen";
 import { GameGreeting } from "../GameGreeting/GameGreeting";
+import { Loader } from "../common/Loader/Loader";
 
 export const GameController = () => {
   const { gameState, error, gameConfig } = useGame();
@@ -39,7 +40,7 @@ export const GameController = () => {
   }
 
   if (!gameConfig) {
-    return <ErrorScreen error="Game configuration not available" />;
+    return <Loader />;
   }
 
   switch (gameState.gameStatus) {
