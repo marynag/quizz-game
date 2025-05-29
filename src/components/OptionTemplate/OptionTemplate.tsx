@@ -29,14 +29,13 @@ export const OptionTemplate = ({
   const isAnswerRevealed = gameState.isAnswerRevealed;
 
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const handleResize = () => {
+      const isMobileNow = window.innerWidth < 768;
+      setIsMobile(isMobileNow);
     };
 
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => window.removeEventListener("resize", checkIfMobile);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const letter = String.fromCharCode(64 + number);
@@ -61,7 +60,7 @@ export const OptionTemplate = ({
       disabled={disabled}
     >
       <svg
-        width="405"
+        width={isMobile ? "100%" : "405"}
         height="72"
         viewBox="0 0 405 72"
         fill="none"

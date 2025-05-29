@@ -13,14 +13,14 @@ export default function Home() {
   const { gameState } = useGame();
 
   const isMobileCurrent =
-    typeof window !== "undefined" && window.innerWidth < 768;
+    typeof window !== "undefined" && window.innerWidth < 1024;
 
   const [isMobile, setIsMobile] = useState(isMobileCurrent);
   const [isPrizeListVisible, setIsPrizeListVisible] = useState(!isMobile);
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobileNow = window.innerWidth < 768;
+      const isMobileNow = window.innerWidth < 1024;
       setIsMobile(isMobileNow);
       setIsPrizeListVisible(!isMobileNow);
     };

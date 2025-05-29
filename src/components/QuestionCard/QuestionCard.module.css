@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 32px;
 }
 
 .questionHeader {
@@ -23,7 +24,7 @@
   flex-wrap: wrap;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .questionBg {
     padding: 0px 0px 24px 0px;
   }
@@ -41,9 +42,9 @@
   .answersBox {
     width: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
   }
 }
