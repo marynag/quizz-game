@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import quizData from "../gameConfig.json";
 import { validateGameConfig } from "./GameContext.utils";
@@ -14,6 +15,7 @@ interface GameContextProps {
   checkAnswer: (selectedAnswers: string[]) => void;
   nextQuestion: () => void;
   restartGame: () => void;
+  error: string | null;
 }
 
 const GameContext = createContext<GameContextProps | undefined>(undefined);
@@ -21,6 +23,9 @@ const GameContext = createContext<GameContextProps | undefined>(undefined);
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const [gameState, setGameState] = useState<GameState>({
     currentQuestionIndex: 0,
     totalPrize: 0,
@@ -30,123 +35,176 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     isCorrect: null,
   });
 
-  const gameConfig: GameConfig = quizData;
+  let gameConfig: GameConfig;
 
-  validateGameConfig(gameConfig);
+  try {
+    gameConfig = quizData;
+    validateGameConfig(gameConfig);
+  } catch (err) {
+    console.log(err);
+    const errorMessage =
+      err instanceof Error ? err.message : "Game configuration error";
+    router.push(`/error?message=${encodeURIComponent(errorMessage)}`);
+    gameConfig = {
+      questions: [],
+    };
+  }
+
+  const handleError = (errorMessage: string) => {
+    setError(errorMessage);
+    router.push(`/error?message=${encodeURIComponent(errorMessage)}`);
+  };
 
   const startGame = (): void => {
-    setGameState({
-      currentQuestionIndex: 0,
-      totalPrize: 0,
-      gameStatus: GameStatus.playing,
-      selectedAnswers: [],
-      isAnswerRevealed: false,
-      isCorrect: null,
-    });
+    try {
+      setGameState({
+        currentQuestionIndex: 0,
+        totalPrize: 0,
+        gameStatus: GameStatus.playing,
+        selectedAnswers: [],
+        isAnswerRevealed: false,
+        isCorrect: null,
+      });
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      handleError("Failed to start game");
+    }
   };
 
   const selectAnswer = (answer: string): void => {
-    const currentQuestion =
-      gameConfig.questions[gameState.currentQuestionIndex];
-    const isMultipleChoice = currentQuestion.answer.length > 1;
+    try {
+      const currentQuestion =
+        gameConfig.questions[gameState.currentQuestionIndex];
 
-    let newSelectedAnswers: string[];
-
-    if (isMultipleChoice) {
-      if (gameState.selectedAnswers.includes(answer)) {
-        newSelectedAnswers = gameState.selectedAnswers.filter(
-          (a) => a !== answer
-        );
-      } else {
-        newSelectedAnswers = [...gameState.selectedAnswers, answer];
+      if (!currentQuestion) {
+        throw new Error("Question not found");
       }
-    } else {
-      newSelectedAnswers = [answer];
-    }
 
-    setGameState((prev) => ({
-      ...prev,
-      selectedAnswers: newSelectedAnswers,
-    }));
+      const isMultipleChoice = currentQuestion.answer.length > 1;
 
-    if (!isMultipleChoice) {
-      setTimeout(() => {
-        checkAnswer(newSelectedAnswers);
-      }, 500);
-    } else {
-      if (
-        newSelectedAnswers.length ===
-        gameConfig.questions[gameState.currentQuestionIndex].answer.length
-      ) {
+      let newSelectedAnswers: string[];
+
+      if (isMultipleChoice) {
+        if (gameState.selectedAnswers.includes(answer)) {
+          newSelectedAnswers = gameState.selectedAnswers.filter(
+            (a) => a !== answer
+          );
+        } else {
+          newSelectedAnswers = [...gameState.selectedAnswers, answer];
+        }
+      } else {
+        newSelectedAnswers = [answer];
+      }
+
+      setGameState((prev) => ({
+        ...prev,
+        selectedAnswers: newSelectedAnswers,
+      }));
+
+      if (!isMultipleChoice) {
         setTimeout(() => {
           checkAnswer(newSelectedAnswers);
         }, 500);
+      } else {
+        if (newSelectedAnswers.length === currentQuestion.answer.length) {
+          setTimeout(() => {
+            checkAnswer(newSelectedAnswers);
+          }, 500);
+        }
       }
+    } catch (err) {
+      console.log(err);
+      handleError("Failed to select answer");
     }
   };
 
   const nextQuestion = (): void => {
-    if (
-      !gameConfig ||
-      gameState.currentQuestionIndex >= gameConfig.questions.length - 1
-    ) {
-      return;
-    }
+    try {
+      if (
+        !gameConfig ||
+        gameState.currentQuestionIndex >= gameConfig.questions.length - 1
+      ) {
+        return;
+      }
 
-    setGameState((prev) => ({
-      ...prev,
-      currentQuestionIndex: prev.currentQuestionIndex + 1,
-      selectedAnswers: [],
-      isAnswerRevealed: false,
-      isCorrect: null,
-    }));
+      setGameState((prev) => ({
+        ...prev,
+        currentQuestionIndex: prev.currentQuestionIndex + 1,
+        selectedAnswers: [],
+        isAnswerRevealed: false,
+        isCorrect: null,
+      }));
+    } catch (err) {
+      console.log(err);
+
+      handleError("Failed to load next question");
+    }
   };
 
   const checkAnswer = (selectedAnswers: string[]): void => {
-    if (!gameConfig) return;
+    try {
+      if (!gameConfig) {
+        throw new Error("Game config not available");
+      }
 
-    const currentQuestion =
-      gameConfig.questions[gameState.currentQuestionIndex];
-    const isCorrect =
-      selectedAnswers.length === currentQuestion.answer.length &&
-      selectedAnswers.every((answer) =>
-        currentQuestion.answer.includes(answer)
-      );
+      const currentQuestion =
+        gameConfig.questions[gameState.currentQuestionIndex];
 
-    const newTotalPrize = isCorrect
-      ? gameState.totalPrize + parseInt(currentQuestion.prize)
-      : gameState.totalPrize;
+      if (!currentQuestion) {
+        throw new Error("Current question not found");
+      }
 
-    setGameState((prev) => ({
-      ...prev,
-      isAnswerRevealed: true,
-      isCorrect,
-      totalPrize: newTotalPrize,
-    }));
+      const isCorrect =
+        selectedAnswers.length === currentQuestion.answer.length &&
+        selectedAnswers.every((answer) =>
+          currentQuestion.answer.includes(answer)
+        );
 
-    setTimeout(() => {
+      const newTotalPrize = isCorrect
+        ? gameState.totalPrize + parseInt(currentQuestion.prize)
+        : gameState.totalPrize;
+
       setGameState((prev) => ({
         ...prev,
-        gameStatus:
-          !isCorrect ||
-          prev.currentQuestionIndex === gameConfig.questions.length - 1
-            ? GameStatus.finished
-            : GameStatus.playing,
+        isAnswerRevealed: true,
+        isCorrect,
+        totalPrize: newTotalPrize,
       }));
 
-      nextQuestion();
-    }, 1000);
+      setTimeout(() => {
+        setGameState((prev) => ({
+          ...prev,
+          gameStatus:
+            !isCorrect ||
+            prev.currentQuestionIndex === gameConfig.questions.length - 1
+              ? GameStatus.finished
+              : GameStatus.playing,
+        }));
+
+        nextQuestion();
+      }, 1000);
+    } catch (err) {
+      console.log(err);
+      handleError("Failed to check answer");
+    }
   };
 
   const restartGame = (): void => {
-    setGameState({
-      currentQuestionIndex: 0,
-      totalPrize: 0,
-      gameStatus: GameStatus.menu,
-      selectedAnswers: [],
-      isAnswerRevealed: false,
-      isCorrect: null,
-    });
+    try {
+      setGameState({
+        currentQuestionIndex: 0,
+        totalPrize: 0,
+        gameStatus: GameStatus.menu,
+        selectedAnswers: [],
+        isAnswerRevealed: false,
+        isCorrect: null,
+      });
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      handleError("Failed to restart game");
+    }
   };
 
   return (
@@ -159,6 +217,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         checkAnswer,
         nextQuestion,
         restartGame,
+        error,
       }}
     >
       {children}

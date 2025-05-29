@@ -8,9 +8,10 @@ import styles from "./page.module.css";
 import { BurgerMenu } from "@/components/BurgerMenu/BurgerMenu";
 import { useEffect, useState } from "react";
 import { GameFinish } from "@/components/GameFinish/GameFinish";
+import { ErrorScreen } from "@/components/error/ErrorScreen";
 
 export default function Home() {
-  const { gameState } = useGame();
+  const { gameState, error } = useGame();
 
   const isMobileCurrent =
     typeof window !== "undefined" && window.innerWidth < 1024;
@@ -32,6 +33,10 @@ export default function Home() {
   const changePrizeListVisibility = () => {
     setIsPrizeListVisible(!isPrizeListVisible);
   };
+
+  if (error) {
+    return <ErrorScreen error={error} />;
+  }
 
   switch (gameState.gameStatus) {
     case GameStatus.menu:
