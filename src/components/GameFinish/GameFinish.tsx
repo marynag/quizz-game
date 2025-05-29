@@ -11,15 +11,17 @@ export const GameFinish = () => {
   const { gameState, restartGame } = useGame();
   return (
     <div className={styles.bgGradient}>
-      <div className={styles.imageWrapper}>
-        <Image src={handImage} alt="Hand" className={styles.handImage} />
-      </div>
-      <div className={styles.headerWrapper}>
-        <div className={styles.resultScore}>
-          <h3 className={styles.totalResult}>Total score:</h3>
-          <h1 className={styles.header}>$ {gameState.totalPrize} earned </h1>
+      <div className={styles.gameFinishWrapper}>
+        <div className={styles.imageWrapper}>
+          <Image src={handImage} alt="Hand" className={styles.handImage} />
         </div>
-        <Button text={"Start"} onClick={restartGame} />
+        <div className={styles.headerWrapper}>
+          <div className={styles.resultScore}>
+            <h3 className={styles.totalResult}>Total score:</h3>
+            <h1 className={styles.header}>$ {gameState.totalPrize} earned </h1>
+          </div>
+          <Button text={"Start"} onClick={restartGame} />
+        </div>
       </div>
     </div>
   );

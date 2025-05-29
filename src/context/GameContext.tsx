@@ -122,13 +122,20 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       isAnswerRevealed: true,
       isCorrect,
       totalPrize: newTotalPrize,
-      gameStatus:
-        !isCorrect ||
-        prev.currentQuestionIndex === gameConfig.questions.length - 1
-          ? GameStatus.finished
-          : GameStatus.playing,
     }));
-    nextQuestion();
+
+    setTimeout(() => {
+      setGameState((prev) => ({
+        ...prev,
+        gameStatus:
+          !isCorrect ||
+          prev.currentQuestionIndex === gameConfig.questions.length - 1
+            ? GameStatus.finished
+            : GameStatus.playing,
+      }));
+
+      nextQuestion();
+    }, 1000);
   };
 
   const restartGame = (): void => {

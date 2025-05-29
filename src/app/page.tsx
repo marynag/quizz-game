@@ -6,15 +6,28 @@ import { GameStatus } from "@/types";
 import { GamePlay } from "@/components/GamePlay/GamePlay";
 import styles from "./page.module.css";
 import { BurgerMenu } from "@/components/BurgerMenu/BurgerMenu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GameFinish } from "@/components/GameFinish/GameFinish";
 
 export default function Home() {
   const { gameState } = useGame();
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const isMobileCurrent =
+    typeof window !== "undefined" && window.innerWidth < 768;
 
+  const [isMobile, setIsMobile] = useState(isMobileCurrent);
   const [isPrizeListVisible, setIsPrizeListVisible] = useState(!isMobile);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobileNow = window.innerWidth < 768;
+      setIsMobile(isMobileNow);
+      setIsPrizeListVisible(!isMobileNow);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const changePrizeListVisibility = () => {
     setIsPrizeListVisible(!isPrizeListVisible);
