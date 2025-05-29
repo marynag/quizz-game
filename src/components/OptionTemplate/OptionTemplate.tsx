@@ -72,7 +72,7 @@ export const OptionTemplate = ({
           d="M48.0518 0.5H356.948C360.532 0.500071 363.904 2.17099 366.076 5.00586L366.283 5.2832L388.383 36L366.283 66.7168C364.122 69.72 360.648 71.4999 356.948 71.5H48.0518C44.3519 71.4999 40.8777 69.72 38.7168 66.7168L16.6162 36L38.7168 5.2832C40.8777 2.27998 44.3519 0.500068 48.0518 0.5Z"
           fill={baseColorBg}
           stroke={baseColorLine}
-          className={styles.SVGhover}
+          className={isAnswerRevealed ? styles.SVGhover : ""}
         />
 
         <text
