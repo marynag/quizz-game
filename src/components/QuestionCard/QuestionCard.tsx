@@ -23,7 +23,6 @@ export const QuestionCard = ({
   return (
     <div className={styles.questionBg}>
       <h2 className={styles.questionHeader}> {question.question}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"></div>
       <div className={styles.answersBox}>
         {question.options.map((option, index) => (
           <OptionTemplate
