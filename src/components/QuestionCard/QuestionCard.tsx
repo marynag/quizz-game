@@ -30,6 +30,7 @@ export const QuestionCard = ({
             key={index}
             text={option}
             number={index + 1}
+            isCorrect={isAnswerRevealed && question.answer.includes(option)}
             onSelect={() => !isAnswerRevealed && onAnswerSelect(option)}
             disabled={isAnswerRevealed}
           />
