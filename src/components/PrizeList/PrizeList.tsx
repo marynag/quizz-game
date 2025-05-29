@@ -10,27 +10,32 @@ export const PrizeList = () => {
   return (
     <div className={styles.prizeList}>
       <ul className={styles.prizeListPoint}>
-        {gameConfig.questions
-          .slice()
-          .reverse()
-          .map((question, index) => {
-            const isWon =
-              index <
-              gameConfig.questions.length - gameState.currentQuestionIndex - 1;
-            const isLost = gameState.isAnswerRevealed && !gameState.isCorrect;
-            const isCurrent =
-              index ===
-              gameConfig.questions.length - gameState.currentQuestionIndex - 1;
+        {gameConfig &&
+          gameConfig.questions
+            .slice()
+            .reverse()
+            .map((question, index) => {
+              const isWon =
+                index <
+                gameConfig.questions.length -
+                  gameState.currentQuestionIndex -
+                  1;
+              const isLost = gameState.isAnswerRevealed && !gameState.isCorrect;
+              const isCurrent =
+                index ===
+                gameConfig.questions.length -
+                  gameState.currentQuestionIndex -
+                  1;
 
-            return (
-              <PrizeStep
-                key={index}
-                isCurrent={isCurrent}
-                isCompleted={isWon || isLost}
-                prize={question.prize}
-              ></PrizeStep>
-            );
-          })}
+              return (
+                <PrizeStep
+                  key={index}
+                  isCurrent={isCurrent}
+                  isCompleted={isWon || isLost}
+                  prize={question.prize}
+                ></PrizeStep>
+              );
+            })}
       </ul>
     </div>
   );
