@@ -19,6 +19,7 @@ export const OptionTemplate = ({
   isCorrect,
 }: Props) => {
   const [isMobile, setIsMobile] = useState(false);
+
   const { gameState } = useGame();
 
   const { selectedAnswers } = gameState;

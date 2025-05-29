@@ -17,10 +17,10 @@
 }
 
 .answersBox {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   row-gap: 32px;
   width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 768px) {
